@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.5"
