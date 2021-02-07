@@ -2,13 +2,15 @@
 
 namespace App\Repositories;
 
-use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class HolidaysRepository
 {
+    const WORKING_DAY = 0;
+
     /** @var Client */
-    private $httpClient;
+    private Client $httpClient;
 
     /**
      * HolidaysRepository constructor.
@@ -20,14 +22,20 @@ class HolidaysRepository
         $this->httpClient = $httpClient;
     }
 
-    public function getAll(): array
+    /**
+     * @param string $date
+     * @return bool
+     * @throws GuzzleException
+     */
+    public function isDayOff(string $date): bool
     {
-        $response = $this->httpClient->get('http://basicdata.ru/api/json/calend/')->getBody()->getContents();
-        $holidaysList = json_decode($response);
-        foreach ($holidaysList as $day) {
-            dd($day);
-            $holidays[] = Carbon::create($day);
+        $response = $this->httpClient->get("https://isdayoff.ru/{$date}")->getBody()->getContents();
+        $statusDay = json_decode($response);
+
+        if ($statusDay === self::WORKING_DAY) {
+            return true;
         }
-        dd($holidays);
+
+        return false;
     }
 }

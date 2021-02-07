@@ -12,14 +12,14 @@ class EmployeeFactory extends Factory
      *
      * @var string
      */
-    protected $model = Employee::class;
+    protected string $model = Employee::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,

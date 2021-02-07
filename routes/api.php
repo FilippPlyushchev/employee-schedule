@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/employee-schedule', [EmployeeScheduleController::class, 'getWorkSchedule']);
+Route::get('/', [EmployeeScheduleController::class, 'getWorkSchedule']);

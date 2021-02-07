@@ -2,26 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\EmployeeWorkTime;
+use App\Models\EmployeeWorkTimes;
 
 class EmployeeRepository
 {
-    /** @var EmployeeWorkTime */
-    private $employeeWorkTime;
+    /** @var EmployeeWorkTimes */
+    private EmployeeWorkTimes $employeeWorkTimes;
 
     /**
      * HolidaysRepository constructor.
      *
-     * @param EmployeeWorkTime $employeeWorkTime
+     * @param EmployeeWorkTimes $employeeWorkTimes
      */
-    public function __construct(EmployeeWorkTime $employeeWorkTime)
+    public function __construct(EmployeeWorkTimes $employeeWorkTimes)
     {
-        $this->employeeWorkTime = $employeeWorkTime;
+        $this->employeeWorkTimes = $employeeWorkTimes;
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function find($id): array
     {
-        return $this->employeeWorkTime->select('start', 'end')
+        return $this->employeeWorkTimes->select(['start', 'end'])
             ->where('employee_id', $id)
             ->orderBy('start', 'asc')
             ->get()

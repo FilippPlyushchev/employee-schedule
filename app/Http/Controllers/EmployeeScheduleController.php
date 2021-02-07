@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\EmployeeRepository;
-use App\Repositories\HolidaysRepository;
+use App\Services\ScheduleService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class EmployeeScheduleController extends Controller
 {
-    /** @var EmployeeRepository */
-    protected $ser;
+    /** @var ScheduleService */
+    protected ScheduleService $scheduleService;
 
     /**
      * EmployeeScheduleController constructor.
-     *
-     * @param EmployeeRepository $ser
+     * @param ScheduleService $scheduleService
      */
-    public function __construct(EmployeeRepository $ser)
+    public function __construct(ScheduleService $scheduleService)
     {
-        $this->ser = $ser;
+        $this->scheduleService = $scheduleService;
     }
 
-
-    public function getWorkSchedule(): JsonResponse
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getWorkSchedule(Request $request): JsonResponse
     {
-        dd($this->ser->find(1));
-        return new JsonResponse(['Endpoint not yet implemented.'], JsonResponse::HTTP_NOT_IMPLEMENTED);
+        $data = $this->scheduleService->getEmployeeSchedule($request->employeeId, $request->startDate, $request->endDate);
+
+        return response()->json($data);
     }
 }
